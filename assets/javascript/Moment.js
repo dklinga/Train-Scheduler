@@ -21,7 +21,7 @@ $("#add-train").on("click", function (event) {
   var trainTime = moment($("#train-time").val().trim(), "HH:mm").format("X");
   var trainFrequency = $("#train-frequency").val().trim();
 
-  // Creates local "temporary" object for holding train data
+  // Creates local object for holding train data
   var newTrain = {
     name: trainName,
     destination: trainDestination,
@@ -29,7 +29,7 @@ $("#add-train").on("click", function (event) {
     frequency: trainFrequency
   };
 
-  // Uploads employee data to the database
+  // Uploads data to the database
   database.ref().push(newTrain);
 
   // Logs everything to console
@@ -49,7 +49,7 @@ $("#add-train").on("click", function (event) {
   $("#train-frequency").val("");
 });
 
-// 3. Create Firebase event for adding train to the database and a row in the html when a user adds an entry
+//Create Firebase event for adding train to the database and a row in the html when a user adds an entry
 database.ref().on("child_added", function (childSnapshot, prevChildKey) {
 
 
@@ -74,22 +74,18 @@ database.ref().on("child_added", function (childSnapshot, prevChildKey) {
 
 
   var currentTime = moment();
-  console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+  console.log("current time: " + moment(currentTime).format("hh:mm"));
 
   var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-  console.log("DIFFERENCE IN TIME: " + diffTime);
+  console.log("difference: " + diffTime);
 
-      // Time apart (remainder)
-      var tRemainder = diffTime % trainFrequency;
-      console.log(tRemainder);
+  // Time apart 
+  var tRemainder = diffTime % trainFrequency;
 
-          // Minute Until Train
-    var tMinutesTillTrain = trainFrequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+  // Minute Until Train
+  var tMinutesTillTrain = trainFrequency - tRemainder;
 
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
-
+  var nextTrain = moment().add(tMinutesTillTrain, "minutes");
 
   // Add each train's data into the table
   $("#train-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" +
